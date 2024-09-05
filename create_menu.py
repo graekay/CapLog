@@ -1,3 +1,6 @@
+import create_mission
+import encounter
+import system_damage
 def main():
     while True:
         print("Create Menu:")
@@ -12,13 +15,10 @@ def main():
         if choice == "1":
             print("You chose Option 1")
         elif choice == "2":
-            import create_mission
             create_mission.mission.generate()
         elif choice == "3":
-            import encounter
             encounter.generate_encounter()          
         elif choice == "4":
-            import system_damage
             print ("You chose Option 4")
         elif choice == "5":
             system_damage.generate_damage_report()
