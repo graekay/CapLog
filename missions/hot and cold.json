@@ -1,0 +1,8 @@
+{
+    "name": "hot and cold",
+    "type": "Patrol",
+    "details": "Patrol hotspot (e.g.  Cardassian Demilitarized Zone or Romulan Neutral Zone)",
+    "inciting_incident": "Explore Rogue comet",
+    "advantage": "Helpful Species \u2013 Advanced: Possessing sophisticated technology or energy manipulating\nabilities, this species is able to help the crew in ways they are unable to fathom.",
+    "complication": null
+}
