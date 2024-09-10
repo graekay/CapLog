@@ -1,50 +1,71 @@
 import sqlite3
 import random
-import json
-import os
 
-class Encounters:
+# Connect to the database
+conn = sqlite3.connect('data/missions.db')
+cursor = conn.cursor()
+
+class Mission:
     def __init__(self, db_path):
         self.conn = sqlite3.connect(db_path)
-        self.c = self.conn.cursor()
+        self.cursor = self.conn.cursor()
+        self.type = None
+        self.details = None
+        self.inciting_incident = None
+        self.advantage = None
+        self.complication = None
 
-    def roll_d20(self):
-        return random.randint(1, 20)
+    def generate(self):
+        # Roll a d20 to get the type
+        self.cursor.execute('SELECT type FROM mission_type ORDER BY RANDOM() LIMIT 1')
+        self.type = self.cursor.fetchone()[0]
 
-    def get_data(self, table):
-        self.c.execute(f'SELECT * FROM {table}')
-        return self.c.fetchall()
+        # Roll a d20 to get the details based on the type
+        self.cursor.execute('SELECT details FROM mission_details WHERE type_id = (SELECT id FROM mission_type WHERE type = ?) ORDER BY RANDOM() LIMIT 1', (self.type,))
+        self.details = self.cursor.fetchone()[0]
 
-    def determine_type(self, type_roll):
-        self.c.execute('Select * FROM encounter_type WHERE ? BETWEEN range_start AND range_end', (type_roll,))
-        return self.c.fetchone()
+        # Roll a d20 to get the inciting incident
+        self.cursor.execute('SELECT incident FROM mission_incident ORDER BY RANDOM() LIMIT 1')
+        incident = self.cursor.fetchone()[0]
 
-    def determine_encounter(self, type_id, encounter_roll):
-        self.c.execute('SELECT encounter FROM encounters WHERE type_id = ? AND  id =?', (type_id, encounter_roll))
-        return self.c.fetchone()[0]
+        # Roll a d20 to get the theme
+        self.cursor.execute('SELECT theme FROM mission_theme ORDER BY RANDOM() LIMIT 1')
+        theme = self.cursor.fetchone()[0]
 
-    def generate_encounter(self):
-        type_roll = self.roll_d20()
-        type_id, _, _, type = self.determine_type(type_roll)
-        encounter_roll = self.roll_d20()
-        encounter = self.determine_encounter(type_id, encounter_roll)
-        return {"type": type, "encounter": encounter}
+        self.inciting_incident = incident + ' ' + theme
 
-# Create encounters folder if it doesn't exist
-if not os.path.exists("encounters"):
-    os.makedirs("encounters")
+        # Roll a d20 to get the advantage or complication
+        roll = random.randint(1, 20)
+        if roll % 2 == 0:
+            self.cursor.execute('SELECT advantage FROM advantages ORDER BY RANDOM() LIMIT 1')
+            self.advantage = self.cursor.fetchone()[0]
+            self.complication = None
+        else:
+            self.cursor.execute('SELECT complication FROM complications ORDER BY RANDOM() LIMIT 1')
+            self.complication = self.cursor.fetchone()[0]
+            self.advantage = None
+    
+    def generate_mission(self):
+        self.generate()
+        return self.get_report()
 
-# Create an instance of the Encounters class
-encounter_generator = Encounters('data/encounter.db')
+    def get_report(self):
+        report = {
+            'Type': self.type,
+            'Details': self.details,
+            'Inciting Incident': self.inciting_incident,
+            'Advantage': self.advantage,
+            'Complication': self.complication
+        }
+        if self.advantage:
+            report['Advantage'] = self.advantage
+        if self.complication:
+            report['Complication'] = self.complication
+        return report
 
-while True:
-    encounter = encounter_generator.generate_encounter()
-    print(f"Type: {encounter['type']} \nEncounter: {encounter['encounter']}")
-    response = input("Reroll? (y/n): ")
-    if response.lower() != "y":
-        name = input("Enter a name for the encounter: ")
-        filename = f"encounters/{name}.json"
-        with open(filename, "w") as f:
-            json.dump(encounter, f)
-        print(f"Encounter saved to {filename}")
-        break
+# Generate a mission
+mission = Mission('data/missions.db')
+mission.generate_mission()
+
+# Get the mission report
+mission_report = mission.get_report()

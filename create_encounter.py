@@ -29,25 +29,3 @@ class Encounters:
         encounter_roll = self.roll_d20()
         encounter = self.determine_encounter(type_id, encounter_roll)
         return {"type": type, "encounter": encounter}
-
-# Create encounters folder if it doesn't exist
-if not os.path.exists("encounters"):
-    os.makedirs("encounters")
-
-# Create an instance of the Encounters class
-encounter_generator = Encounters('data/encounter.db')
-
-while True:
-    encounter = encounter_generator.generate_encounter()
-    print(f"Type: {encounter['type']} \nEncounter: {encounter['encounter']}")
-    response = input("Reroll? (y/n): ")
-    if response.lower() != "y":
-        name = input("Enter a name for the encounter: ")
-        filename = f"encounters/{name}.json"
-        with open(filename, "w") as f:
-            json.dump(encounter, f)
-        print(f"Encounter saved to {filename}")
-        break
-
-import create_menu
-create_menu.main()

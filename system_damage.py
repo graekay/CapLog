@@ -38,11 +38,11 @@ def generate_damage_report():
     details = determine_details(severity_id, detail_roll)
     return f"System: {system} \nSeverity: {severity} {details}"
 
-while True:
-    print(generate_damage_report())
-    response = input("Reroll? (y/n): ")
-    if response.lower() != "y":
-        break
+#while True:
+#    print(generate_damage_report())
+#    response = input("Reroll? (y/n): ")
+#    if response.lower() != "y":
+#        break
 
 # Print a damage report
 print(generate_damage_report())
