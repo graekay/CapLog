@@ -3,7 +3,7 @@ from tkinter import filedialog, Text, font
 
 app = tk.Tk()
 app.title("Captain's Log Generators")
-app.geometry("800x600")
+app.geometry("800x800")
 
 # Create a frame for the buttons
 button_frame = tk.Frame(app)
@@ -54,9 +54,9 @@ def create_text_area(label_text):
     return text_area
 
 # Create text areas for each function
-character_text_area = create_text_area("Character")
-ship_text_area = create_text_area("Ship")
-crew_text_area = create_text_area("Crew")
+#character_text_area = create_text_area("Character")
+#ship_text_area = create_text_area("Ship")
+#crew_text_area = create_text_area("Crew")
 mission_text_area = create_text_area("Mission")
 encounter_text_area = create_text_area("Encounter")
 system_text_area = create_text_area("System")
@@ -64,9 +64,9 @@ planet_text_area = create_text_area("Planet")
 civilization_text_area = create_text_area("Civilization")
 
 # Pack the text areas into the text frame
-character_text_area.pack(pady=2)
-ship_text_area.pack(pady=2)
-crew_text_area.pack(pady=2)
+#character_text_area.pack(pady=2)
+#ship_text_area.pack(pady=2)
+#crew_text_area.pack(pady=2)
 mission_text_area.pack(pady=2)
 encounter_text_area.pack(pady=2)
 system_text_area.pack(pady=2)
@@ -95,32 +95,32 @@ def update_height(text_area):
     text_area.config(height=text_area.index('end -1 line').split('.')[0])
 
 # Modify your insert functions to use the correct text area
-def insert_character():
-    text_area = character_text_area
-    text_area.config(state='normal')
-    text_area.delete(1.0, tk.END)
-    text_area.insert(tk.END, "WIP\n")
-    text_area.update_idletasks()  # Update the widget to get the correct height
-    update_height(text_area)
-    text_area.config(state='disabled')
+#def insert_character():
+#    text_area = character_text_area
+#    text_area.config(state='normal')
+#    text_area.delete(1.0, tk.END)
+#    text_area.insert(tk.END, "WIP\n")
+#    text_area.update_idletasks()  # Update the widget to get the correct height
+#    update_height(text_area)
+#    text_area.config(state='disabled')
 
-def insert_ship():
-    text_area = ship_text_area
-    text_area.config(state='normal')
-    text_area.delete(1.0, tk.END)
-    text_area.insert(tk.END, "WIP\n")
-    text_area.update_idletasks()  # Update the widget to get the correct height
-    update_height(text_area)
-    text_area.config(state='disabled')
+#def insert_ship():
+#    text_area = ship_text_area
+#    text_area.config(state='normal')
+#    text_area.delete(1.0, tk.END)
+#    text_area.insert(tk.END, "WIP\n")
+#    text_area.update_idletasks()  # Update the widget to get the correct height
+#    update_height(text_area)
+#    text_area.config(state='disabled')
 
-def insert_crew():
-    text_area = crew_text_area
-    text_area.config(state='normal')
-    text_area.delete(1.0, tk.END)
-    text_area.insert(tk.END, "WIP\n")
-    text_area.update_idletasks()  # Update the widget to get the correct height
-    update_height(text_area)
-    text_area.config(state='disabled')
+#def insert_crew():
+#    text_area = crew_text_area
+#    text_area.config(state='normal')
+#    text_area.delete(1.0, tk.END)
+#    text_area.insert(tk.END, "WIP\n")
+#    text_area.update_idletasks()  # Update the widget to get the correct height
+#    update_height(text_area)
+#    text_area.config(state='disabled')
 
 def insert_mission():
     from create_mission import Mission
@@ -195,14 +195,14 @@ def insert_civilization():
 
 
 # Create buttons for each function
-button1 = tk.Button(button_frame, text="Character", command=insert_character, width=10)
-button1.pack(pady=2)
+#button1 = tk.Button(button_frame, text="Character", command=insert_character, width=10)
+#button1.pack(pady=2)
 
-button2 = tk.Button(button_frame, text="Ship", command=insert_ship, width=10)
-button2.pack(pady=2)
+#button2 = tk.Button(button_frame, text="Ship", command=insert_ship, width=10)
+#button2.pack(pady=2)
 
-button3 = tk.Button(button_frame, text="Crew", command=insert_crew, width=10)
-button3.pack(pady=2)
+#button3 = tk.Button(button_frame, text="Crew", command=insert_crew, width=10)
+#button3.pack(pady=2)
 
 button4 = tk.Button(button_frame, text="Mission", command=insert_mission, width=10)
 button4.pack(pady=2)
